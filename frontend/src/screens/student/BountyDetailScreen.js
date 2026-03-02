@@ -58,9 +58,10 @@ const BountyDetailScreen = ({ route, navigation }) => {
             try {
               const result = await bidService.acceptBid(bidId);
               showAlert('Success', 'Bid accepted!');
-              navigation.navigate('SessionRoom', { 
+              navigation.navigate('SessionRoom', {
                 roomId: result.room_id,
-                bountyId: bountyId 
+                bountyId: bountyId,
+                targetUserId: result.mentor_id
               });
             } catch (error) {
               showAlert('Error', error.response?.data?.error || 'Failed to accept bid');
@@ -117,7 +118,7 @@ const BountyDetailScreen = ({ route, navigation }) => {
       </View>
 
       <Text style={styles.sectionTitle}>Bids ({bids.length})</Text>
-      
+
       {bids.length === 0 ? (
         <Text style={styles.emptyText}>No bids yet. Waiting for mentors...</Text>
       ) : (

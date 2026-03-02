@@ -18,8 +18,15 @@ const MyBidsScreen = ({ navigation }) => {
     const acceptedBids = messages.filter(m => m.type === 'bid_accepted');
     if (acceptedBids.length > 0) {
       loadMyBids();
+      // Navigate to the session room of the most recently accepted bid
+      const latestAccepted = acceptedBids[acceptedBids.length - 1].payload;
+      navigation.navigate('SessionRoom', {
+        roomId: latestAccepted.room_id,
+        bountyId: latestAccepted.bounty_id,
+        targetUserId: latestAccepted.student_id
+      });
     }
-  }, [messages]);
+  }, [messages, navigation]);
 
   const loadMyBids = async () => {
     setLoading(true);
@@ -90,7 +97,7 @@ const MyBidsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>My Bids</Text>
-      
+
       <FlatList
         data={bids}
         renderItem={renderBid}

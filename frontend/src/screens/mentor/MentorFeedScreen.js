@@ -26,15 +26,16 @@ const MentorFeedScreen = ({ navigation }) => {
     const acceptedBids = messages.filter(m => m.type === 'bid_accepted');
     if (acceptedBids.length > 0) {
       const latestAccepted = acceptedBids[acceptedBids.length - 1];
-      
+
       // Show success notification
       showAlert('Bid Accepted!', 'Your bid has been accepted! Joining session room...');
-      
+
       // Auto-navigate to session room
       setTimeout(() => {
         navigation.navigate('SessionRoom', {
           roomId: latestAccepted.payload.room_id,
           bountyId: latestAccepted.payload.bounty_id,
+          targetUserId: latestAccepted.payload.student_id,
         });
       }, 1500); // Small delay to show the success message
     }
@@ -72,8 +73,8 @@ const MentorFeedScreen = ({ navigation }) => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Live Bounty Feed</Text>
         <View style={styles.headerButtons}>
-          <TouchableOpacity 
-            style={styles.myBidsButton} 
+          <TouchableOpacity
+            style={styles.myBidsButton}
             onPress={() => navigation.navigate('MyBids')}
           >
             <Text style={styles.myBidsText}>My Bids</Text>
